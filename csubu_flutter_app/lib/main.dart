@@ -15,7 +15,7 @@ void main() {
 
 class CSUBUFlutterApp extends StatelessWidget {
 
-  final appTitle = 'CSUBU App Page';
+  final appTitle = 'Hits Movies';
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _AppHomePageState extends State<AppHomePage> {
   var _page = 0;
 
   _getStudents() async {
-    var url = 'http://cs.sci.ubu.ac.th:7512/topic-1/Navayos_59110440215/_search?from=${_page*10}&size=10';
+    var url = 'http://cs.sci.ubu.ac.th:7512/topic-1/59110440215_Navayos/_search?from=${_page*10}&size=10';
     const headers = { 'Content-Type': 'application/json; charset=utf-8' };
     const query = { 'query': { 'match_all': {} } };
     final response = await http.post(url, headers: headers, body: json.encode(query));
@@ -62,7 +62,7 @@ class _AppHomePageState extends State<AppHomePage> {
       result.forEach((item) {
         if (item.containsKey('_source')) {
           var source = item['_source'];
-          if (source.containsKey('name') && source.containsKey('age')) {
+          if (source.containsKey('name') && source.containsKey('year')) {
             _students.add(item['_source']);
           }
         }
@@ -92,15 +92,15 @@ class _AppHomePageState extends State<AppHomePage> {
             title: Row(
                   children: <Widget>[
                     // Image.asset('assets/images/csubu-bw.png', width: 48, height: 48),
-                    CircleAvatar(backgroundImage: NetworkImage('https://picsum.photos/id/${sum%30}/48/48')),
+                    CircleAvatar(backgroundImage: NetworkImage('${student["pic"]}')),
                     Expanded(child: Text(student["name"]))
                   ]
                 ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Age: ${student["age"]}'),
-               // Text('Email: ${student["email"]}')
+                Text('Year: ${student["year"]}'),
+                //Text('Pic: ${student["pic"]}')
               ]
              )
           );
